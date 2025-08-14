@@ -47,7 +47,7 @@ Pour chaque exercice :
 ### Exercice 1 : État et Effets 
 #### Objectif : Implémenter une recherche en temps réel
 
-** Solution implémentée :**
+**Solution implémentée :**
 
 Pour la recherche en temps réel, j'ai utilisé le hook useState pour stocker la valeur du champ de recherche dans le composant App et la passer en props aux composants enfants.
 
@@ -78,7 +78,7 @@ const filteredProducts = products.filter(product =>
 ### Exercice 2 : Context et Internationalisation
 #### Objectif : Gérer les préférences de langue
 
-**✅ Solution implémentée :**
+**Solution implémentée :**
 
 J'ai créé un LanguageContext complet qui gère l'internationalisation de l'application avec 3 langues : Français, Anglais et Arabe.
 
@@ -120,15 +120,67 @@ const { t } = useLanguage();
 ### Exercice 3 : Hooks Personnalisés
 #### Objectif : Créer des hooks réutilisables
 
-- [ ] 3.1 Créer le hook useDebounce
-- [ ] 3.2 Créer le hook useLocalStorage
-- [ ] 3.3 Documenter votre solution ici
+**Solution implémentée :**
 
-_Votre réponse pour l'exercice 3 :_
+J'ai créé deux hooks personnalisés réutilisables et les ai intégrés dans l'application.
+
+**1. Hook useDebounce :**
+- Retarde l'exécution d'une valeur pour optimiser les performances
+- Utilisé dans ProductSearch pour éviter les recherches trop fréquentes
+- Délai configurable (300ms par défaut)
+
+**2. Hook useLocalStorage :**
+- Synchronise automatiquement l'état React avec localStorage
+- Gère les erreurs de parsing JSON
+- Écoute les changements depuis d'autres onglets
+- Utilisé pour persister le thème, la langue et le terme de recherche
+
+**Fichiers créés :**
+- `src/hooks/useDebounce.js` - Hook de debouncing
+- `src/hooks/useLocalStorage.js` - Hook de synchronisation localStorage
+
+**Code clé :**
+```javascript
+// useDebounce.js
+const useDebounce = (value, delay) => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+  
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+    
+    return () => clearTimeout(handler);
+  }, [value, delay]);
+  
+  return debouncedValue;
+};
+
+// useLocalStorage.js
+const useLocalStorage = (key, initialValue) => {
+  const [storedValue, setStoredValue] = useState(() => {
+    try {
+      const item = window.localStorage.getItem(key);
+      return item ? JSON.parse(item) : initialValue;
+    } catch (error) {
+      return initialValue;
+    }
+  });
+  // ...
+};
 ```
-Expliquez votre solution ici
-[Ajoutez vos captures d'écran]
-```
+
+**Intégration :**
+- LanguageContext utilise useLocalStorage pour persister la langue
+- App utilise useLocalStorage pour persister le thème et la recherche
+- ProductSearch utilise useDebounce pour optimiser la recherche
+
+**Difficultés rencontrées :**
+- Gestion des erreurs JSON dans useLocalStorage
+- Synchronisation entre plusieurs onglets avec l'événement 'storage'
+- Optimisation du debounce pour éviter les re-renders inutiles
+
+**Résultat :** Les préférences (langue, thème, recherche) sont automatiquement sauvegardées et restaurées au rechargement de la page. La recherche est optimisée avec un debounce.
 
 ### Exercice 4 : Gestion Asynchrone et Pagination
 #### Objectif : Gérer le chargement et la pagination

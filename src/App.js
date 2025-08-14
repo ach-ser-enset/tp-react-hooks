@@ -1,16 +1,18 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext } from 'react';
 import ProductList from './components/ProductList';
 import ProductSearch from './components/ProductSearch';
 import ThemeToggle from './components/ThemeToggle';
 import LanguageSelector from './components/LanguageSelector';
 import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
+import useLocalStorage from './hooks/useLocalStorage';
 
 export const ThemeContext = createContext();
 
 const AppContent = () => {
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
+  // Exercice 3: Utilisation du hook useLocalStorage pour persister le thème
+  const [isDarkTheme, setIsDarkTheme] = useLocalStorage('darkTheme', false);
   // Exercice 1: État de recherche en temps réel
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useLocalStorage('searchTerm', '');
   // Exercice 2: Utilisation du contexte de langue
   const { t } = useLanguage();
 
