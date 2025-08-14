@@ -57,6 +57,8 @@ Pour la recherche en temps réel, j'ai utilisé le hook useState pour stocker la
 - Filtrage en temps réel des produits dans ProductList
 - Amélioration de la gestion des états dans useProductSearch
 
+![img.png](img.png)
+
 **Code clé :**
 ```javascript
 // Dans App.js
