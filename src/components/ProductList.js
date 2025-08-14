@@ -13,8 +13,16 @@ const ProductList = ({ searchTerm }) => {
     products, 
     loading, 
     error,
-    // TODO: Exercice 4.1 - Récupérer la fonction de rechargement
-    // TODO: Exercice 4.2 - Récupérer les fonctions et états de pagination
+    // Exercice 4: États et fonctions de pagination
+    currentPage,
+    totalPages,
+    totalProducts,
+    reload,
+    nextPage,
+    previousPage,
+    goToPage,
+    hasNextPage,
+    hasPreviousPage
   } = useProductSearch();
 
   // Exercice 1: Filtrage en temps réel des produits
@@ -33,11 +41,35 @@ const ProductList = ({ searchTerm }) => {
   if (error) return (
     <div className="alert alert-danger" role="alert">
       {t('error')}: {error}
+      {/* Exercice 4: Bouton de rechargement en cas d'erreur */}
+      <button 
+        className="btn btn-outline-danger ms-2" 
+        onClick={reload}
+      >
+        Réessayer
+      </button>
     </div>
   );
   
   return (
     <div>
+      {/* Exercice 4: Bouton de rechargement et informations */}
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <div>
+          <small className="text-muted">
+            {totalProducts} produits au total
+            {searchTerm && ` | ${filteredProducts.length} résultats pour "${searchTerm}"`}
+          </small>
+        </div>
+        <button 
+          className={`btn ${isDarkTheme ? 'btn-outline-light' : 'btn-outline-dark'}`}
+          onClick={reload}
+          disabled={loading}
+        >
+          {loading ? t('loading') : t('reload')}
+        </button>
+      </div>
+
       {/* TODO: Exercice 4.1 - Ajouter le bouton de rechargement */}
       <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         {/* Exercice 1: Affichage des produits filtrés */}
@@ -65,28 +97,50 @@ const ProductList = ({ searchTerm }) => {
         ))}
       </div>
       
-      {/* TODO: Exercice 4.2 - Ajouter les contrôles de pagination */}
-      {/* Exemple de structure pour la pagination :
-      <nav className="mt-4">
-        <ul className="pagination justify-content-center">
-          <li className="page-item">
-            <button className="page-link" onClick={previousPage}>
-              Précédent
-            </button>
-          </li>
-          <li className="page-item">
-            <span className="page-link">
-              Page {currentPage} sur {totalPages}
-            </span>
-          </li>
-          <li className="page-item">
-            <button className="page-link" onClick={nextPage}>
-              Suivant
-            </button>
-          </li>
-        </ul>
-      </nav>
-      */}
+      {/* Exercice 4: Contrôles de pagination */}
+      {totalPages > 1 && (
+        <nav className="mt-4">
+          <ul className="pagination justify-content-center">
+            <li className={`page-item ${!hasPreviousPage ? 'disabled' : ''}`}>
+              <button 
+                className="page-link" 
+                onClick={previousPage}
+                disabled={!hasPreviousPage}
+              >
+                {t('previous')}
+              </button>
+            </li>
+            
+            {/* Affichage des numéros de page */}
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+              <li key={page} className={`page-item ${currentPage === page ? 'active' : ''}`}>
+                <button 
+                  className="page-link" 
+                  onClick={() => goToPage(page)}
+                >
+                  {page}
+                </button>
+              </li>
+            ))}
+            
+            <li className={`page-item ${!hasNextPage ? 'disabled' : ''}`}>
+              <button 
+                className="page-link" 
+                onClick={nextPage}
+                disabled={!hasNextPage}
+              >
+                {t('next')}
+              </button>
+            </li>
+          </ul>
+          
+          <div className="text-center mt-2">
+            <small className="text-muted">
+              {t('page')} {currentPage} {t('of')} {totalPages}
+            </small>
+          </div>
+        </nav>
+      )}
     </div>
   );
 };

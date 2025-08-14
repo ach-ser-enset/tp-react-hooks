@@ -185,15 +185,74 @@ const useLocalStorage = (key, initialValue) => {
 ### Exercice 4 : Gestion Asynchrone et Pagination
 #### Objectif : Gérer le chargement et la pagination
 
-- [ ] 4.1 Ajouter le bouton de rechargement
-- [ ] 4.2 Implémenter la pagination
-- [ ] 4.3 Documenter votre solution ici
+**Solution implémentée :**
 
-_Votre réponse pour l'exercice 4 :_
+J'ai implémenté un système complet de pagination côté serveur avec gestion asynchrone et fonctionnalité de rechargement.
+
+**Fonctionnalités ajoutées :**
+
+**1. Bouton de rechargement :**
+- Bouton dans l'interface permettant de recharger les données
+- Disponible aussi en cas d'erreur pour réessayer
+- État disabled pendant le chargement
+
+**2. Pagination complète :**
+- Pagination côté serveur avec paramètres `limit` et `skip`
+- Navigation entre les pages (Précédent/Suivant)
+- Affichage des numéros de page cliquables
+- Informations sur la page courante et le nombre total
+- États disabled pour les boutons non disponibles
+
+**3. Gestion asynchrone améliorée :**
+- useCallback pour optimiser les re-renders
+- États de chargement granulaires
+- Gestion d'erreurs avec possibilité de retry
+
+**Code clé :**
+```javascript
+// useProductSearch.js
+const fetchProducts = useCallback(async (page = 1) => {
+  setLoading(true);
+  setError(null);
+  try {
+    const skip = (page - 1) * itemsPerPage;
+    const response = await fetch(`https://api.daaif.net/products?delay=1000&limit=${itemsPerPage}&skip=${skip}`);
+    const data = await response.json();
+    
+    setProducts(data.products || []);
+    setTotalProducts(data.total || 0);
+    setTotalPages(Math.ceil((data.total || 0) / itemsPerPage));
+    setCurrentPage(page);
+  } catch (err) {
+    setError(err.message);
+  } finally {
+    setLoading(false);
+  }
+}, []);
+
+// Fonctions de navigation
+const nextPage = useCallback(() => {
+  if (currentPage < totalPages) {
+    fetchProducts(currentPage + 1);
+  }
+}, [currentPage, totalPages, fetchProducts]);
 ```
-Expliquez votre solution ici
-[Ajoutez vos captures d'écran]
-```
+
+**Interface utilisateur :**
+- Affichage du nombre total de produits
+- Compteur de résultats de recherche
+- Pagination Bootstrap avec états actifs/disabled
+- Indicateur de page courante
+- Traductions complètes pour toutes les fonctionnalités
+
+**Difficultés rencontrées :**
+- Synchronisation entre l'état local (recherche) et l'état serveur (pagination)
+- Optimisation des appels API avec useCallback
+- Gestion des cas limites (première/dernière page)
+- Interface responsive avec Bootstrap
+- Intégration fluide avec les exercices précédents
+
+**Résultat :** L'application affiche 6 produits par page avec une pagination fonctionnelle, un bouton de rechargement, et les informations de navigation entre les pages. Toutes les fonctionnalités sont traduites dans les 3 langues.
 
 ## Rendu
 

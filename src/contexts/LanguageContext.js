@@ -11,7 +11,12 @@ const translations = {
     price: 'Prix',
     lightMode: 'Mode Clair',
     darkMode: 'Mode Sombre',
-    language: 'Langue'
+    language: 'Langue',
+    reload: 'Recharger',
+    previous: 'Précédent',
+    next: 'Suivant',
+    page: 'Page',
+    of: 'sur'
   },
   en: {
     productCatalog: 'Product Catalog',
@@ -21,7 +26,12 @@ const translations = {
     price: 'Price',
     lightMode: 'Light Mode',
     darkMode: 'Dark Mode',
-    language: 'Language'
+    language: 'Language',
+    reload: 'Reload',
+    previous: 'Previous',
+    next: 'Next',
+    page: 'Page',
+    of: 'of'
   },
   ar: {
     productCatalog: 'كتالوج المنتجات',
@@ -31,7 +41,12 @@ const translations = {
     price: 'السعر',
     lightMode: 'الوضع الفاتح',
     darkMode: 'الوضع الداكن',
-    language: 'اللغة'
+    language: 'اللغة',
+    reload: 'إعادة تحميل',
+    previous: 'السابق',
+    next: 'التالي',
+    page: 'الصفحة',
+    of: 'من'
   }
 };
 
