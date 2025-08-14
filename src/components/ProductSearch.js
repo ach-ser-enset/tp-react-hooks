@@ -1,10 +1,12 @@
 import React, { useContext } from 'react';
 import { ThemeContext } from '../App';
+import { useLanguage } from '../contexts/LanguageContext';
 
 // Exercice 1: Composant de recherche contrôlé
 const ProductSearch = ({ searchTerm, setSearchTerm }) => {
   const { isDarkTheme } = useContext(ThemeContext);
-  // TODO: Exercice 2.1 - Utiliser le LanguageContext
+  // Exercice 2: Utilisation du contexte de langue
+  const { t } = useLanguage();
   // TODO: Exercice 1.2 - Utiliser le hook useDebounce
 
   return (
@@ -14,7 +16,7 @@ const ProductSearch = ({ searchTerm, setSearchTerm }) => {
         type="text"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        placeholder="Rechercher un produit..."
+        placeholder={t('searchProduct')}
         className={`form-control ${isDarkTheme ? 'bg-dark text-light' : ''}`}
       />
     </div>

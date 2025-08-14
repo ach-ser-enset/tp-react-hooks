@@ -47,7 +47,7 @@ Pour chaque exercice :
 ### Exercice 1 : État et Effets 
 #### Objectif : Implémenter une recherche en temps réel
 
-**✅ Solution implémentée :**
+** Solution implémentée :**
 
 Pour la recherche en temps réel, j'ai utilisé le hook useState pour stocker la valeur du champ de recherche dans le composant App et la passer en props aux composants enfants.
 
@@ -78,15 +78,44 @@ const filteredProducts = products.filter(product =>
 ### Exercice 2 : Context et Internationalisation
 #### Objectif : Gérer les préférences de langue
 
-- [ ] 2.1 Créer le LanguageContext
-- [ ] 2.2 Ajouter le sélecteur de langue
-- [ ] 2.3 Documenter votre solution ici
+**✅ Solution implémentée :**
 
-_Votre réponse pour l'exercice 2 :_
+J'ai créé un LanguageContext complet qui gère l'internationalisation de l'application avec 3 langues : Français, Anglais et Arabe.
+
+**Fonctionnalités ajoutées :**
+- LanguageContext avec traductions pour 3 langues (fr, en, ar)
+- Composant LanguageSelector avec dropdown Bootstrap
+- Hook useLanguage pour faciliter l'utilisation du contexte
+- Traduction de tous les textes de l'interface
+
+**Fichiers créés :**
+- `src/contexts/LanguageContext.js` - Context et Provider
+- `src/components/LanguageSelector.js` - Sélecteur de langue
+
+**Code clé :**
+```javascript
+// LanguageContext.js
+export const LanguageProvider = ({ children }) => {
+  const [currentLanguage, setCurrentLanguage] = useState('fr');
+  
+  const t = (key) => {
+    return translations[currentLanguage][key] || key;
+  };
+  // ...
+};
+
+// Utilisation dans les composants
+const { t } = useLanguage();
+<h1>{t('productCatalog')}</h1>
 ```
-Expliquez votre solution ici
-[Ajoutez vos captures d'écran]
-```
+
+**Difficultés rencontrées :**
+- Organisation des traductions de manière maintenable
+- Gestion du fallback si une traduction manque
+- Intégration fluide avec les autres composants sans casser l'architecture existante
+- Nécessité de restructurer App.js avec un composant AppContent
+
+**Résultat :** L'application affiche un sélecteur de langue qui permet de basculer entre Français, English et العربية avec traduction de toute l'interface.
 
 ### Exercice 3 : Hooks Personnalisés
 #### Objectif : Créer des hooks réutilisables
