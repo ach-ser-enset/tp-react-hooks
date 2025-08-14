@@ -9,7 +9,8 @@ export const ThemeContext = createContext();
 
 const App = () => {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
-  // TODO: Exercice 2.2 - Ajouter l'état pour la langue
+  // Exercice 1: État de recherche en temps réel
+  const [searchTerm, setSearchTerm] = useState('');
 
   return (
     <ThemeContext.Provider value={{ isDarkTheme, setIsDarkTheme }}>
@@ -23,8 +24,9 @@ const App = () => {
           </div>
         </header>
         <main>
-          <ProductSearch />
-          <ProductList />
+          {/* Exercice 1: Passage des props de recherche */}
+          <ProductSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+          <ProductList searchTerm={searchTerm} />
         </main>
       </div>
     </ThemeContext.Provider>

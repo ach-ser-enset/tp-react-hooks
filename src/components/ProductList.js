@@ -2,7 +2,8 @@ import React, { useContext } from 'react';
 import { ThemeContext } from '../App';
 import useProductSearch from '../hooks/useProductSearch';
 
-const ProductList = () => {
+// Exercice 1: Composant avec filtrage des produits
+const ProductList = ({ searchTerm }) => {
   const { isDarkTheme } = useContext(ThemeContext);
   // TODO: Exercice 2.1 - Utiliser le LanguageContext pour les traductions
   
@@ -13,6 +14,11 @@ const ProductList = () => {
     // TODO: Exercice 4.1 - Récupérer la fonction de rechargement
     // TODO: Exercice 4.2 - Récupérer les fonctions et états de pagination
   } = useProductSearch();
+
+  // Exercice 1: Filtrage en temps réel des produits
+  const filteredProducts = products.filter(product =>
+    product.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
   
   if (loading) return (
     <div className="text-center my-4">
@@ -32,7 +38,8 @@ const ProductList = () => {
     <div>
       {/* TODO: Exercice 4.1 - Ajouter le bouton de rechargement */}
       <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-        {products.map(product => (
+        {/* Exercice 1: Affichage des produits filtrés */}
+        {filteredProducts.map(product => (
           <div key={product.id} className="col">
             <div className={`card h-100 ${isDarkTheme ? 'bg-dark text-light' : ''}`}>
               {product.thumbnail && (

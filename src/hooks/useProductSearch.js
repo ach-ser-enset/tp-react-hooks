@@ -11,12 +11,14 @@ const useProductSearch = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
+      setLoading(true); // Exercice 1: Amélioration de la gestion du loading
+      setError(null);
       try {
         // TODO: Exercice 4.2 - Modifier l'URL pour inclure les paramètres de pagination
         const response = await fetch('https://api.daaif.net/products?delay=1000');
         if (!response.ok) throw new Error('Erreur réseau');
         const data = await response.json();
-        setProducts(data.products);
+        setProducts(data.products || []); // Exercice 1: Protection contre les données manquantes
         setLoading(false);
       } catch (err) {
         setError(err.message);

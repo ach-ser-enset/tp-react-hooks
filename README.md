@@ -47,15 +47,33 @@ Pour chaque exercice :
 ### Exercice 1 : État et Effets 
 #### Objectif : Implémenter une recherche en temps réel
 
-- [ ] 1.1 Modifier le composant ProductSearch pour utiliser la recherche
-- [ ] 1.2 Implémenter le debounce sur la recherche
-- [ ] 1.3 Documenter votre solution ici
+**✅ Solution implémentée :**
 
-_Votre réponse pour l'exercice 1 :_
+Pour la recherche en temps réel, j'ai utilisé le hook useState pour stocker la valeur du champ de recherche dans le composant App et la passer en props aux composants enfants.
+
+**Fonctionnalités ajoutées :**
+- État de recherche géré au niveau App avec useState  
+- Props drilling pour passer searchTerm et setSearchTerm
+- Filtrage en temps réel des produits dans ProductList
+- Amélioration de la gestion des états dans useProductSearch
+
+**Code clé :**
+```javascript
+// Dans App.js
+const [searchTerm, setSearchTerm] = useState('');
+
+// Dans ProductList.js  
+const filteredProducts = products.filter(product =>
+  product.title.toLowerCase().includes(searchTerm.toLowerCase())
+);
 ```
-Expliquez votre solution ici
-[Ajoutez vos captures d'écran]
-```
+
+**Difficultés rencontrées :**
+- La gestion de l'état de chargement et des erreurs nécessite une attention particulière
+- Le filtrage côté client fonctionne bien pour une démonstration, mais dans un vrai projet, il faudrait faire le filtrage côté serveur
+- Props drilling peut devenir problématique avec une application plus complexe
+
+**Résultat :** L'application affiche la recherche en temps réel qui filtre les produits instantanément quand on tape dans le champ de recherche.
 
 ### Exercice 2 : Context et Internationalisation
 #### Objectif : Gérer les préférences de langue
